@@ -48,7 +48,7 @@ const removeQuotations = (str) => {
 };
 window.onload = async () => {
   let currentTime = await showData(API_URLS.localTime);
-  timeContainer.textContent = currentTime;
+  timeContainer.textContent = formatDate(currentTime);
 
   let todayEvents = await showData(API_URLS.schedule.todayEvents);
   todayEvents.length = 8;
