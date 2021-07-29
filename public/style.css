@@ -8,3 +8,6 @@ footer {
   position: absolute;
   bottom: 0;
 }
+.btn-group a {
+  margin-right: 1rem;
+}

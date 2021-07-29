@@ -1,24 +1,11 @@
 const timeContainer = document.querySelector(".time-container");
-const sportsContainer = document.querySelector(".sports-main-container");
-
-const footer = document.createElement("footer");
-footer.innerHTML = `
-<p class="mb-0">Tokio Olympics 2020</p>
-<p class="mb-0">
-  Made with ❤️ by
-  <a href="github.com/GabrielCrackPro" target="blank" class="text-white"
-    >@GabrielCrackPro</a
-  >
-</p>
-`;
-footer.classList.add("bg-primary");
-
+const locationsContainer = document.querySelector(".main-container-locations");
 const API_URLS = {
   general: "https://olypi.com",
   localTime: "https://olypi.com/general/?call=GetLocalTime",
   locations: {
     all: "https://olypi.com/locations/?call=GetAllLocations",
-    byId: `https://olypi.com/locations/?call=GetLocation&id=1`,
+    byId: `https://olypi.com/locations/?call=GetLocation&id=`,
   },
   days: "https://olypi.com/days/?call=Status",
   schedule: {
@@ -28,7 +15,8 @@ const API_URLS = {
   },
   sports: {
     all: "https://olypi.com/sports/?call=GetAllSports",
-    byId: "https://olypi.com/sports/?call=GetSport&id=",
+    byId: "https://olypi.com/sports/?call=GetSport",
+    map: "https://www.google.com/maps/place/lat+lon",
   },
   weather: {
     live: "https://olypi.com/weather/?call=Live",
@@ -53,25 +41,28 @@ const removeQuotations = (str) => {
   str = str.replace(/\"/g, "");
   return str;
 };
-
 window.onload = async () => {
   let currentTime = await showData(API_URLS.localTime);
   timeContainer.textContent = formatDate(currentTime);
-
-  let sports = await showData(API_URLS.sports.all);
-  sports.shift();
-  sports.forEach((sport) => {
-    sportsContainer.innerHTML += `
+  const locations = await showData(API_URLS.locations.all);
+  console.log(locations);
+  locations.forEach((location) => {
+    locationsContainer.innerHTML += `
     <div class="card-group">
-    <div class="card p-2">
-    <h3>#${sport.id - 1}</h3>
-    <p>${sport.name}</p>
-    <a href="${
-      API_URLS.sports.byId + sport.id
-    }" target="blank" class="btn btn-primary btn-sm">More Info</a>
+    <div class="card p-3">
+    <h3>#${location.id}</h3>
+    <p>${location.name}</p>
+    <p>Lat: ${location.lat} Long: ${location.lon}</p>
+    <div class="btn-group">
+    <a href="https://www.google.com/maps/place/${location.lat}+${
+      location.lon
+    }" target="blank" class="btn btn-primary btn-sm">View on Googlr Maps</a>
+      <a href="${
+        API_URLS.locations.byId + location.id
+      }" target="blank" class="btn btn-primary btn-sm">More Info</a>
+    </div>
     </div>
     </div>
     `;
   });
-  sportsContainer.innerHTML += footer.innerHTML;
 };

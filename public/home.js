@@ -90,5 +90,4 @@ window.onload = async () => {
   <p class="text-center"><span class="started-text">${days.days_remaining}</span> days left</p>
   </div>
   `;
-  console.log(days);
 };
